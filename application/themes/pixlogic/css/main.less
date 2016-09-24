@@ -1,0 +1,63 @@
+@import "var";
+
+/*template*/
+@import "./header.less";
+@import "./footer.less";
+@import "./btn.less";
+@import "./page-title.less";
+@import "./forms.less";
+
+/*blocks*/
+/*@import "./blocks/fed-splash.less";*/
+
+body {
+  background: @grayBlack;
+  .font-sans;
+}
+
+.pixlogic {
+  main {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,eae9e8+100 */
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 0%, #eae9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#eae9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #ffffff 0%,#eae9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eae9e8',GradientType=0 ); /* IE6-9 */
+
+    min-height: 150px;
+    padding: 50px 0;
+
+    img { margin-bottom: 13px; }
+  }
+
+  .home {
+    padding:0;
+  }
+
+  input[type="text"], input[type="email"], input[type="tel"], input[type="search"], input[type="url"], input[type="password"], .ui-autocomplete-input, textarea, .uneditable-input, select {
+    border-radius:0px;
+  }
+
+  /*typography*/
+  h1,h2,h3 {
+    .font-play;
+    margin:0 0 15px;
+  }
+
+  h4,h5,h6 {
+    margin:0 0 10px;
+  }
+
+  p, input, a {
+    .font-sans;
+  }
+
+  a {
+    &:hover, &:active, &:focus { }
+  }
+
+  a[href^="tel:"] {
+    color:inherit;
+    &:hover, &:active, &:focus { text-decoration: none; }
+  }
+}
