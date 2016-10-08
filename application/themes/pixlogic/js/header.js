@@ -1,13 +1,24 @@
 var scrollPos;
 
 $(document).ready(function(){
-  console.log('scroll here!');
+  var mainHeader = '#main-header';
+  
+  /*show/hide fixed menu*/
   $(window).scroll(function(){
-    console.log($(window).scrollTop(), $(window).scrollTop() > 90);
     if($(window).scrollTop() > 90) {
-      $('#main-header').addClass('header--isFixed');
+      $(mainHeader).addClass('header--isFixed');
     } else {
-      $('#main-header').removeClass('header--isFixed');
+      $(mainHeader).removeClass('header--isFixed');
+    }
+  });
+
+  /*mobile menu toggle*/
+  $('#main-nav-toggle').bind('click', function(e){
+    e.preventDefault();
+    if($(mainHeader).hasClass('header--isNavOpen')){
+      $(mainHeader).removeClass('header--isNavOpen');
+    } else {
+      $(mainHeader).addClass('header--isNavOpen');
     }
   });
 });

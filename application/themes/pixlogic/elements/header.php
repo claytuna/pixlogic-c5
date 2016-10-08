@@ -11,12 +11,18 @@ $as = new GlobalArea('Header Search');
   <header class="header-nav" role="banner">
       <div class="container">
           <div class="row">
-              <div class="col-xs-12 col-sm-3">
-                  <a class="header-nav__logo" href="/">
-                    <i></i>
+              <div class="col-xs-4 col-sm-3">
+                  <a class="header-nav__logo" href="/" title="PixLogic - Home">
+                    <i class="sr-only">PixLogic - Home</i>
                   </a>
               </div>
-              <div class="col-xs-12 col-sm-9" role="navigation">
+              <div class="col-xs-8 col-sm-9" role="navigation">
+                  <a class="header-nav__toggle" id="main-nav-toggle" href="#">
+                    <i>
+                      <span></span>
+                    </i>
+                    <span>Menu</span>
+                  </a>
                   <?php
                   $a = new GlobalArea('Header Navigation');
                   $a->display();
@@ -27,7 +33,7 @@ $as = new GlobalArea('Header Search');
   </header>
 
   <?php /*CALLOUT IMG ATTRIBUTE HERE */?>
-  <img class="page-title-callout__img" src="" alt="pixlogic callout image"/>
+  <div class="page-title-callout__img" style="background-image:url('<?php echo $view->getThemePath()?>/img/banner-tablet-default.jpg')"></div>
 
   <div class="page-title-callout__text">
   <div class="container">

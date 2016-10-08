@@ -1,75 +1,171 @@
 @import "var";
+@blackNav: #2d2622;
 
-.header--isFixed {
+.header {
   .header-nav {
-    background:#fff;
-    position: fixed;
+    background: transparent;
+    border-bottom: 1px solid rgba(255,255,255,.5);
+    position: absolute;
+    transition: background-color 1s ease;
     width: 100%;
-    z-index: 999;
+    z-index: @z-header;
+
+    @media @tablet-up {
+      min-height: @headerNavHeight;
+    }
 
     &__logo {
-      i {}
+      display: block;
+      height: 35px;
+      margin: 3px 0;
+
+      background: transparent url("../img/logo-pixlogic-white.png") no-repeat;
+      background-size: contain;
+
+      @media @tablet-up {
+        height: 60px;
+        margin: 15px 0;
+      }
+    }
+
+    &__toggle {
+      color: #fff;
+      display: block;
+      font-weight: @font-bold;
+      margin: 0 0 5px;
+      padding: 10px 15px;
+
+      i {
+        display: block;
+        float: left;
+        margin-right: 10px;
+        width: 30px;
+
+        span {
+          background: #fff;
+          display: block;
+          height: 4px;
+          position: relative;
+
+          &:before, &:after {
+            display: block;
+            background: inherit;
+            content: "";
+            height: 4px;
+            width: 100%;
+            position: absolute;
+          }
+          &:before {
+            bottom: -10px;
+          }
+
+          &:after {
+            bottom: -20px;
+          }&:after {
+            bottom: -20px;
+          }
+        }
+      }
+
+      @media @tablet-up {
+        display:none;
+      }
+    }
+
+    .nav {
+      display: none;
+
+      @media @tablet-up {
+        display: block;
+      }
+
+      li {
+        font-weight: @font-bold;
+
+        @media @tablet-up {
+          display: inline-block;
+        }
+
+        a {
+          color: #fff;
+          &:hover, &:active, &:focus {
+            color: #2d2622;
+          }
+
+          @media @tablet-up {
+            display: inline-block;
+            height: 90px;
+            line-height: 90px;
+            padding: 0 12px;
+          }
+
+          @media @desktop-up {
+          }
+        }
+      }
+
+      li.nav-selected, li.nav-path-selected {
+        position: relative;
+        a {
+
+          &:hover, &:active, &:focus {
+          }
+        }
+
+        @media @tablet-up {
+          a:after {
+          }
+        }
+      }
+
+      @media @tablet-up {
+        float: right;
+        overflow: hidden;
+      }
     }
   }
 }
 
-.header-nav {
-  background: transparent;
-  border-bottom: 1px solid rgba(255,255,255,.5);
-
-
-  &__logo {
-    display: block;
-    height: 65px;
-    padding: 15px 0;
-
-    i {
-
+.header--isNavOpen {
+  .header-nav {
+    .nav {
+      background-color: rgba(0,0,0,.5);
+      display: block;
     }
   }
+}
 
-  .nav {
+.header--isNavOpen.header--isFixed {
+  .header-nav {
+    .nav {
+      background-color: transparent;
+    }
+  }
+}
 
-    li {
+.header--isFixed {
+  .header-nav {
+    background:rgba(255,255,255,.95);
+    border-bottom: 1px solid #fff;
+    position: fixed;
+    width: 100%;
 
-      @media @tablet-up {
-        display: inline-block;
-      }
-
-      a {
-
-        &:hover, &:active, &:focus {
-        }
-
-        @media @tablet-up {
-          display: inline-block;
-          height: 90px;
-          line-height: 90px;
-          padding: 0 12px;
-        }
-
-        @media @desktop-up {
-        }
-      }
+    &__logo {
+      background-image: url("../img/logo-pixlogic-black.png");
     }
 
-    li.nav-selected, li.nav-path-selected {
-      position: relative;
-      a {
+    &__toggle {
+      color: @blackNav;
 
-        &:hover, &:active, &:focus {
-        }
-      }
-
-      @media @tablet-up {
-        a:after {
-        }
-      }
+      i span { background-color: @blackNav; }
     }
 
-    @media @tablet-up {
-      float: right;
-      overflow: hidden;
+    .nav {
+      li {
+        a {
+          color: @blackNav;
+        }
+      }
     }
   }
 }
