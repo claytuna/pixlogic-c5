@@ -1,9 +1,9 @@
 @import "var";
 
-.fedresults {
+.pixlogic {
   .btn {
     border: 0;
-    border-radius: 0;
+    border-radius: 2px;
     display: inline-block;
     font-weight: 700;
     font-size: 13px;
@@ -15,13 +15,26 @@
     text-transform: uppercase;
 
     &--primary {
-      background:@fedRed;
+      background:@pixOrange;
+      border: 1px solid @pixOrange;
       color: #fff;
       transition: background .3s ease;
 
       &:hover, &:active, &:focus {
         color: #fff;
-        background:@fedRedDark;
+        background:@pixOrangeDark;
+        border-color:@pixOrangeDark;
+      }
+    }
+
+    &--primary.btn--hollow {
+      background: transparent;
+      color: @pixOrange;
+
+      &:hover, &:active, &:focus {
+        color: #fff;
+        background:@pixOrangeDark;
+        border-color:@pixOrangeDark;
       }
     }
 

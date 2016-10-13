@@ -35,12 +35,13 @@ $as = new GlobalArea('Header Search');
   <?php /*CALLOUT IMG ATTRIBUTE HERE */?>
   <div class="page-title-callout__img" style="background-image:url('<?php echo $view->getThemePath()?>/img/banner-tablet-default.jpg')"></div>
 
+  <?php if($GLOBALS['hideTitle'] == false){?>
   <div class="page-title-callout__text">
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
         <h1>
-          <span class="page-title-callout__intro">intro attr</span>
+          <span class="page-title-callout__intro">intro attr <?php echo($GLOBALS['foo']);?></span>
           <?php
           echo $c->getCollectionName();
           ?>
@@ -49,6 +50,7 @@ $as = new GlobalArea('Header Search');
     </div>
   </div>
   </div>
+  <?php }?>
 
 </section>
 

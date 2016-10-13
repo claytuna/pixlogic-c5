@@ -9,6 +9,7 @@
 
 /*blocks*/
 /*@import "./blocks/fed-splash.less";*/
+@import "./blocks/pix-full-grid.less";
 
 body {
   background: @grayBlack;
@@ -59,5 +60,12 @@ body {
   a[href^="tel:"] {
     color:inherit;
     &:hover, &:active, &:focus { text-decoration: none; }
+  }
+
+  .text {
+    &--orange {
+      color: @pixOrange;
+      font-weight: @font-bold;
+    }
   }
 }

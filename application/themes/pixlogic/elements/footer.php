@@ -10,7 +10,7 @@ $a->display();
 <footer class="footer" role="contentinfo">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-sm-2">
+      <div class="col-xs-12 col-sm-3">
         <div class="footer__left">
           <?php
           $a = new GlobalArea('Footer Site Logo');
@@ -19,7 +19,7 @@ $a->display();
            <span class="footer__copy">&copy;<?php echo date('Y');?> piXlogic, Inc.</span>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-10">
+      <div class="col-xs-12 col-sm-9">
         <div class="footer__right">
           <?php
           $a = new GlobalArea('Footer Content');

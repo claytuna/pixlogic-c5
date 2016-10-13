@@ -1,5 +1,6 @@
 <?php
 defined('C5_EXECUTE') or die("Access Denied.");
+$GLOBALS['hideTitle'] = true;
 $this->inc('elements/header.php'); ?>
 
 <main role="main" class="home">

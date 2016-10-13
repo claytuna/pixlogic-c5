@@ -1,16 +1,42 @@
 @import "var";
 
 .footer {
+  background-color: @pixDarkBrown;
+  border-bottom: 2px solid #323232;
   color: @grayMed;
-  height: 80px;
+  min-height: 80px;
 
   &__left {
     padding:20px 0;
+
+    img {
+      display: block;
+      margin: 0 auto 8px;
+      max-width: 100px;
+
+      @media @tablet-up {
+        display: inline-block;
+        margin: 0 5px 0 0;
+      }
+    }
+
+    .footer__copy {
+      color:#636363;
+      display: block;
+      font-size: 11px;
+      text-align: center;
+
+      @media @tablet-up {
+        display: inline;
+        text-align: left;
+      }
+    }
   }
 
   &__right {
     text-align: center;
-    .footer__copy {
+    p {
+      font-size: 13px;
       width: 100%;
       display: inline-block;
       margin-bottom: 10px;
@@ -20,7 +46,7 @@
       text-align: right;
       line-height: 80px;
 
-      .footer__copy { display: inline; }
+      p { display: inline; }
     }
   }
 }
