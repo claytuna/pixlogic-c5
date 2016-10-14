@@ -14,12 +14,16 @@
           }?>
           <div class="cta-hero__cta">
           <div class="row">
+            <?php if($altText){?>
             <div class="col-xs-12 col-sm-6">
             <a href="<?php echo $linkURL?>" class="btn btn--primary btn--block"><?php echo $altText?></a>
             </div>
+            <?php }?>
+            <?php if($altText2){?>
             <div class="col-xs-12 col-sm-6">
             <a href="<?php echo $linkURL2?>" class="btn btn--transparent btn--block"><?php echo $altText2?></a>
             </div>
+            <?php }?>
           </div>
           </div>
       </div>

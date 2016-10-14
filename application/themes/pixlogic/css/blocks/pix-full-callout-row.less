@@ -1,0 +1,39 @@
+@import "../var";
+.full-callout-row {
+  background-color: #342e2b;
+  padding: 34px 0;
+  position: relative;
+
+  &__angle {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 75px 75px 0 0;
+    border-color: @pixDarkBrown transparent transparent transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__icon {
+    background: transparent url("../../img/icon-pix-x.png") no-repeat;
+    position: absolute;
+    top: -66px;
+    right: -44px;
+    height: 30px;
+    width: 30px;
+    display: block;
+  }
+  &__text {
+    padding: 0 55px;
+    @media @tablet-up { padding:0 21px; }
+  }
+  &__text p {
+    color:#9a9a9a;
+    margin-bottom: 21px;
+  }
+  &__btn {
+    padding: 0 55px;
+    @media @tablet-up { padding:0; }
+  }
+}

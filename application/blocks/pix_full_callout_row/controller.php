@@ -12,7 +12,7 @@ class Controller extends BlockController
 {
     protected $btInterfaceWidth = 400;
     protected $btInterfaceHeight = 550;
-    protected $btTable = 'btSolutionTitle';
+    protected $btTable = 'btPixFullCalloutRow';
     protected $btCacheBlockRecord = true;
     protected $btCacheBlockOutput = true;
     protected $btCacheBlockOutputOnPost = true;
@@ -29,12 +29,12 @@ class Controller extends BlockController
      */
     public function getBlockTypeDescription()
     {
-        return t("Solution Title and Description etc.");
+        return t("Callout text with a button.");
     }
 
     public function getBlockTypeName()
     {
-        return t("Solution Title - FedResults");
+        return t("Full Callout Row - piXlogic");
     }
 
     public function registerViewAssets($outputContent = '')

@@ -15,30 +15,18 @@ if ($controller->getFileOnstateID() > 0) {
 
 <fieldset>
 
-    <legend><?php echo t('Solution Icon')?></legend>
+    <legend><?php echo t('Callout Button')?></legend>
 <?php
 $args = array();
 
 ?>
 
 <div class="form-group">
-	<label class="control-label"><?php echo t('Icon')?></label>
-	<?php echo $al->image('ccm-b-image', 'fID', t('Choose Image'), $bf, $args);?>
-</div>
-
-<div class="form-group">
-	<?php echo $form->label('altText', t('Icon Alt Text'))?>
+	<?php echo $form->label('altText', t('Button Text'))?>
 	<?php echo $form->text('altText', $altText, array('style'=>'width: 60%;')); ?>
 </div>
-
-</fieldset>
-<hr/>
-
-<fieldset>
-    <legend><?php echo t('Solution Text')?></legend>
-
-<!--div class="form-group">
-	<?php echo $form->label('imageLinkType', t('Read More Link'))?>
+<div class="form-group">
+	<?php echo $form->label('imageLinkType', t('Button Link'))?>
 	<select name="linkType" id="imageLinkType" class="form-control" style="width: 60%;">
 		<option value="0" <?php echo (empty($externalLink) && empty($internalLinkCID) ? 'selected="selected"' : '')?>><?php echo t('None')?></option>
 		<option value="1" <?php echo (empty($externalLink) && !empty($internalLinkCID) ? 'selected="selected"' : '')?>><?php echo t('Another Page')?></option>
@@ -54,17 +42,18 @@ $args = array();
 <div id="imageLinkTypeExternal" style="display: none;" class="form-group">
 	<?php echo $form->label('externalLink', t('URL'))?>
 	<?php echo $form->text('externalLink', $externalLink, array('style'=>'width: 60%;')); ?>
-</div-->
-
-<div class="form-group">
-	<?php echo $form->label('title', t('Title'))?>
-	<?php echo $form->text('title', $title, array('style'=>'width: 60%;')); ?>
 </div>
 
-<div class="form-group">
-	<?php echo $form->label('description', t('Description'))?>
-	<?php echo $form->textarea('description', $description, array('style'=>'width: 100%;')); ?>
-</div>
+</fieldset>
+<hr/>
+
+<fieldset>
+    <legend><?php echo t('Callout Text')?></legend>
+
+	<div class="form-group">
+		<?php echo $form->label('description', t('Text'))?>
+		<?php echo $form->textarea('description', $description, array('style'=>'width: 100%;')); ?>
+	</div>
 
 </fieldset>
 
