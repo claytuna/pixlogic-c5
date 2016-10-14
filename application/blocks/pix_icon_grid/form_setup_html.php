@@ -82,6 +82,7 @@ echo Core::make('helper/concrete/ui')->tabs(array(
                     link_url: '<?php echo $row['linkURL']; ?>',
                     link_type: '<?php echo $linkType; ?>',
                     title: '<?php echo addslashes(h($row['title'])); ?>',
+                    link_text: '<?php echo addslashes(h($row['linkText'])); ?>',
                     description: '<?php echo str_replace(array("\t", "\r", "\n"), "", addslashes(h($row['description']))); ?>',
                     sort_order: '<?php echo $row['sortOrder']; ?>'
                 }));
@@ -99,6 +100,7 @@ echo Core::make('helper/concrete/ui')->tabs(array(
             sliderEntriesContainer.append(_templateSlide({
                 fID: '',
                 title: '',
+                link_text: '',
                 link_url: '',
                 cID: '',
                 description: '',
@@ -264,27 +266,28 @@ echo Core::make('helper/concrete/ui')->tabs(array(
 
         </div>
         <div>
-            <button type="button" class="btn btn-success ccm-add-image-slider-entry"><?php echo t('Add Grid Entry'); ?></button>
+            <button type="button" class="btn btn-success ccm-add-image-slider-entry"><?php echo t('Add Entry'); ?></button>
         </div>
     </div>
 </div>
 
 <div id="ccm-tab-content-options" class="ccm-tab-content">
   <div class="form-group">
+      <label><?php echo t('Layout Alignment'); ?></label>
       <div class="radio">
-          <label><input type="radio" name="<?php echo $view->field('layoutType'); ?>" value="0" <?php echo layoutType > 0 ? '' : 'checked'; ?> /><?php echo t('Left Aligned'); ?></label>
+          <label><input type="radio" name="<?php echo $view->field('layoutType'); ?>" value="0" <?php echo $layoutType > 0 ? '' : 'checked'; ?> /><?php echo t('Left Aligned'); ?></label>
       </div>
   </div>
   <div class="form-group">
       <div class="radio">
-          <label><input type="radio" name="<?php echo $view->field('layoutType'); ?>" value="1" <?php echo layoutType > 0 ? 'checked' : ''; ?> /><?php echo t('Center Aligned'); ?></label>
+          <label><input type="radio" name="<?php echo $view->field('layoutType'); ?>" value="1" <?php echo $layoutType > 0 ? 'checked' : ''; ?> /><?php echo t('Center Aligned'); ?></label>
       </div>
   </div>
 </div>
 
 <script type="text/template" id="imageTemplate">
     <div class="ccm-image-slider-entry slide-well slide-closed">
-        <button type="button" class="btn btn-default ccm-edit-slide" data-slide-close-text="<?php echo t('Collapse Slide'); ?>" data-slide-edit-text="<?php echo t('Edit Slide'); ?>"><?php echo t('Edit Slide'); ?></button>
+        <button type="button" class="btn btn-default ccm-edit-slide" data-slide-close-text="<?php echo t('Collapse Entry'); ?>" data-slide-edit-text="<?php echo t('Edit Entry'); ?>"><?php echo t('Edit Entry'); ?></button>
         <button type="button" class="btn btn-danger ccm-delete-image-slider-entry"><?php echo t('Remove'); ?></button>
         <i class="fa fa-arrows"></i>
         <div class="form-group">
@@ -306,22 +309,6 @@ echo Core::make('helper/concrete/ui')->tabs(array(
             <label><?php echo t('Description'); ?></label>
             <div class="redactor-edit-content"></div>
             <textarea style="display: none" class="redactor-content" name="<?php echo $view->field('description'); ?>[]"><%=description%></textarea>
-        </div>
-        <div class="form-group" >
-           <label><?php echo t('Link'); ?></label>
-            <select data-field="entry-link-select" name="linkType[]" class="form-control" style="width: 60%;">
-                <option value="0" <% if (!link_type) { %>selected<% } %>><?php echo t('None'); ?></option>
-                <option value="1" <% if (link_type == 1) { %>selected<% } %>><?php echo t('Another Page'); ?></option>
-                <option value="2" <% if (link_type == 2) { %>selected<% } %>><?php echo t('External URL'); ?></option>
-            </select>
-        </div>
-        <div data-field="entry-link-url" class="form-group hide-slide-link">
-           <label><?php echo t('URL:'); ?></label>
-            <textarea name="linkURL[]"><%=link_url%></textarea>
-        </div>
-        <div data-field="entry-link-page-selector" class="form-group hide-slide-link">
-           <label><?php echo t('Choose Page:'); ?></label>
-            <div data-field="entry-link-page-selector-select"></div>
         </div>
         <input class="ccm-image-slider-entry-sort" type="hidden" name="<?php echo $view->field('sortOrder'); ?>[]" value="<%=sort_order%>"/>
     </div>

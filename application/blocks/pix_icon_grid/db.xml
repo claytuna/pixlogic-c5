@@ -3,7 +3,7 @@
   xmlns="http://www.concrete5.org/doctrine-xml/0.5"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.concrete5.org/doctrine-xml/0.5 http://concrete5.github.io/doctrine-xml/doctrine-xml-0.5.xsd">
 
-  <table name="btFedGrid">
+  <table name="btPixIconGrid">
     <field name="bID" type="integer">
       <unsigned/>
       <key/>
@@ -14,7 +14,7 @@
     </field>
   </table>
 
-  <table name="btFedGridEntries">
+  <table name="btPixIconGridEntries">
     <field name="id" type="integer">
       <unsigned/>
       <autoincrement/>
@@ -38,6 +38,7 @@
     </field>
     <field name="title" type="text"/>
     <field name="description" type="text"/>
+    <field name="linkText" type="text"/>
     <field name="sortOrder" type="integer"/>
   </table>
 
