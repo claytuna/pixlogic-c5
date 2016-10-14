@@ -1,35 +1,27 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");?>
 
-<div class="fed-solution-title">
+<div class="cta-hero">
     <div class="row">
 
-      <div class="col-xs-12">
-        <div class="fed-solution-title__img">
-          <?php
-          $iconObj = File::getByID($fImg);
-          ?>
-          <?php if(is_object($iconObj)) {
-              $tag = Core::make('html/image', array($iconObj, false))->getTag();
-              if($altText) {
-                $tag->alt($altText . '- Event');
-              }else{
-                $tag->alt("Solution Icon");
-              }
-              print $tag; ?>
-          <?php } ?>
-        </div>
-
-        <div class="fed-solution-title__text">
+      <div class="col-xs-12 col-md-8 col-lg-6">
           <?php
           if($title){
-            print '<p class="title">'. $title .'</p>';
+            print '<h1 class="cta-hero__title">'. $title .'</h1>';
           }?>
           <?php
           if($description){
-            print '<div class="desc"><p>'. $description .'</p></div>';
+            print '<div class="cta-hero__text"><p>'. $description .'</p></div>';
           }?>
-        </div>
+          <div class="cta-hero__cta">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+            <a href="<?php echo $linkURL?>" class="btn btn--primary btn--block"><?php echo $altText?></a>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+            <a href="<?php echo $linkURL2?>" class="btn btn--transparent btn--block"><?php echo $altText2?></a>
+            </div>
+          </div>
+          </div>
       </div>
-
   </div>
 </div>

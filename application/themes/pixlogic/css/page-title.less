@@ -23,12 +23,13 @@
 
   h1 {
     color: #fff;
-    font-size: 50px;
+    font-size: 34px;
     .font-play;
     margin: 0;
     padding: 20px 20px 40px;
 
     @media @tablet-up {
+      font-size: 50px;
       padding: 100px 0 115px;
     }
 
@@ -41,5 +42,10 @@
       text-transform: uppercase;
       margin-bottom: 8px;
     }
+  }
+
+  &__alt {
+    padding-top:@headerNavHeight;
+    h1 {padding:0;}
   }
 }

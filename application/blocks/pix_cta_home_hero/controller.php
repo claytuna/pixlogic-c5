@@ -12,7 +12,7 @@ class Controller extends BlockController
 {
     protected $btInterfaceWidth = 400;
     protected $btInterfaceHeight = 550;
-    protected $btTable = 'btSolutionTitle';
+    protected $btTable = 'btPixCtaHomeHero';
     protected $btCacheBlockRecord = true;
     protected $btCacheBlockOutput = true;
     protected $btCacheBlockOutputOnPost = true;
@@ -29,12 +29,12 @@ class Controller extends BlockController
      */
     public function getBlockTypeDescription()
     {
-        return t("Solution Title and Description etc.");
+        return t("Hero text, desciption, and buttons for homepage.");
     }
 
     public function getBlockTypeName()
     {
-        return t("Solution Title - FedResults");
+        return t("Home Hero CTA - piXlogic");
     }
 
     public function registerViewAssets($outputContent = '')
@@ -52,7 +52,9 @@ class Controller extends BlockController
         $this->set('fImg', File::getByID($this->fID));
         $this->set('f', $f);
         $this->set('altText', $this->getAltText());
+        $this->set('altText2', $this->getAltText2());
         $this->set('linkURL', $this->getLinkURL());
+        $this->set('linkURL2', $this->getLinkURL2());
     }
 
     public function getJavaScriptStrings()
@@ -77,7 +79,7 @@ class Controller extends BlockController
         // i don't know why this->fID isn't sticky in some cases, leading us to query
         // every damn time
         $db = Database::connection();
-        $fID = $db->fetchColumn('select fID from btContentImage where bID = ?', array($this->bID), 0);
+        $fID = $db->fetchColumn('select fID from btPixCtaHomeHero where bID = ?', array($this->bID), 0);
         if ($fID) {
             $f = File::getByID($fID);
             if (is_object($f) && !$f->isError()) {
@@ -113,6 +115,11 @@ class Controller extends BlockController
         return $this->altText;
     }
 
+    public function getAltText2()
+    {
+        return $this->altText2;
+    }
+
     public function getExternalLink()
     {
         return $this->externalLink;
@@ -131,6 +138,31 @@ class Controller extends BlockController
             return $sec->sanitizeURL($this->externalLink);
         } elseif (!empty($this->internalLinkCID)) {
             $linkToC = Page::getByID($this->internalLinkCID);
+
+            return (empty($linkToC) || $linkToC->error) ? '' : Core::make('helper/navigation')->getLinkToCollection($linkToC);
+        } else {
+            return '';
+        }
+    }
+
+    public function getExternalLink2()
+    {
+        return $this->externalLink2;
+    }
+
+    public function getInternalLinkCID2()
+    {
+        return $this->internalLinkCID2;
+    }
+
+    public function getLinkURL2()
+    {
+        if (!empty($this->externalLink2)) {
+            $sec = \Core::make('helper/security');
+
+            return $sec->sanitizeURL($this->externalLink2);
+        } elseif (!empty($this->internalLinkCID2)) {
+            $linkToC = Page::getByID($this->internalLinkCID2);
 
             return (empty($linkToC) || $linkToC->error) ? '' : Core::make('helper/navigation')->getLinkToCollection($linkToC);
         } else {

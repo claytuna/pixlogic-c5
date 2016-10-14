@@ -50,6 +50,15 @@ $as = new GlobalArea('Header Search');
     </div>
   </div>
   </div>
+  <?php } else {?>
+    <div class="page-title-callout__alt">
+      <div class="container">
+      <?php
+      $hs = new Area('Header Section');
+      $hs->display($c);
+      ?>
+      </div>
+    </div>
   <?php }?>
 
 </section>

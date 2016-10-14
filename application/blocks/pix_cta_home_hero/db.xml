@@ -3,7 +3,7 @@
   xmlns="http://www.concrete5.org/doctrine-xml/0.5"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.concrete5.org/doctrine-xml/0.5 http://concrete5.github.io/doctrine-xml/doctrine-xml-0.5.xsd">
 
-  <table name="btSolutionTitle">
+  <table name="btPixCtaHomeHero">
     <field name="bID" type="integer">
       <unsigned/>
       <key/>
@@ -19,7 +19,13 @@
       <unsigned/>
       <default value="0"/>
     </field>
+    <field name="externalLink2" type="string" size="255"/>
+    <field name="internalLinkCID2" type="integer">
+      <unsigned/>
+      <default value="0"/>
+    </field>
     <field name="altText" type="text"/>
+    <field name="altText2" type="text"/>
     <index name="fID">
       <col>fID</col>
     </index>

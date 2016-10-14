@@ -5,7 +5,6 @@
     border: 0;
     border-radius: 2px;
     display: inline-block;
-    font-weight: 700;
     font-size: 13px;
     height: 45px;
     letter-spacing: 1px;
@@ -13,12 +12,12 @@
     margin-bottom: 10px;
     padding: 0 25px;
     text-transform: uppercase;
+    transition: background-color .3s ease, border-color .3s ease;
 
     &--primary {
       background:@pixOrange;
       border: 1px solid @pixOrange;
       color: #fff;
-      transition: background .3s ease;
 
       &:hover, &:active, &:focus {
         color: #fff;
@@ -38,9 +37,25 @@
       }
     }
 
+    &--transparent {
+      background: rgba(255,255,255,.15);
+      border:1px solid rgba(255,255,255,.8);
+      color: #fff;
+
+      &:hover, &:active, &:focus {
+        color: #fff;
+        background:@pixOrangeDark;
+        border-color:@pixOrangeDark;
+      }
+    }
+
     &--sm {
       height: @sm-height;
       line-height: @sm-height;
+    }
+
+    &--block {
+      display: block;
     }
 
     &--center {
