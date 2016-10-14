@@ -1,0 +1,27 @@
+@import "../var";
+.logo-row-wrapper {
+  background: #fff;
+  padding: 34px 0;
+  @media @tablet-up {
+    padding: 55px 0 13px;
+  }
+}
+.logo-row {
+  &__logo {
+    display: block;
+    padding: 0 13px;
+
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    @media @tablet-up {
+      display: inline-block;
+      min-height: 121px;
+      padding: 0 27px;
+      img { display: inline; }
+    }
+  }
+
+}

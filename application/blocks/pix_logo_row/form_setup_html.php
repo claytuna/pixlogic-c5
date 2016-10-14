@@ -271,14 +271,13 @@ echo Core::make('helper/concrete/ui')->tabs(array(
     </div>
 </div>
 
-
 <script type="text/template" id="imageTemplate">
     <div class="ccm-image-slider-entry slide-well slide-closed">
         <button type="button" class="btn btn-default ccm-edit-slide" data-slide-close-text="<?php echo t('Collapse Entry'); ?>" data-slide-edit-text="<?php echo t('Edit Entry'); ?>"><?php echo t('Edit Entry'); ?></button>
         <button type="button" class="btn btn-danger ccm-delete-image-slider-entry"><?php echo t('Remove'); ?></button>
         <i class="fa fa-arrows"></i>
         <div class="form-group">
-            <label><?php echo t('Image'); ?></label>
+            <label><?php echo t('Logo Image'); ?></label>
             <div class="ccm-pick-slide-image">
                 <% if (image_url.length > 0) { %>
                     <img src="<%= image_url %>" />
@@ -287,15 +286,6 @@ echo Core::make('helper/concrete/ui')->tabs(array(
                 <% } %>
             </div>
             <input type="hidden" name="<?php echo $view->field('fID'); ?>[]" class="image-fID" value="<%=fID%>" />
-        </div>
-        <div class="form-group" >
-            <label><?php echo t('Title'); ?></label>
-            <input type="text" name="<?php echo $view->field('title'); ?>[]" value="<%=title%>" />
-        </div>
-        <div class="form-group" >
-            <label><?php echo t('Description'); ?></label>
-            <div class="redactor-edit-content"></div>
-            <textarea style="display: none" class="redactor-content" name="<?php echo $view->field('description'); ?>[]"><%=description%></textarea>
         </div>
         <input class="ccm-image-slider-entry-sort" type="hidden" name="<?php echo $view->field('sortOrder'); ?>[]" value="<%=sort_order%>"/>
     </div>
