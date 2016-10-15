@@ -1,29 +1,38 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
 $navigationTypeText = ($navigationType == 0) ? 'arrows' : 'pages';
 $c = Page::getCurrentPage();
-if ($c->isEditMode()) { ?>
-    <div class="ccm-edit-mode-disabled-item" style="<?php echo isset($width) ? "width: $width;" : '' ?><?php echo isset($height) ? "height: $height;" : '' ?>">
-        <div style="padding: 40px 0px 40px 0px"><?php echo t('Grid Content disabled in edit mode.')?></div>
-    </div>
-<?php  } else { ?>
+?>
 
-<div class="fed-grid">
+<div class="feature">
     <div class="container">
         <div class="row">
-        <div class="col-xs-12">
+          <div class="col-xs-12">
+            <h2 class="feature__title">
+              TITLE
+            </h2>
+            <div class="feature__desc">
+              DESC
+            </div>
+            <?php if (is_object($featureFile)) {
+              $image = Core::make('html/image', array($featureFile));
+              $tag = $image->getTag();
+              print $tag;
+            }?>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-xs-12 col-sm-6 col-lg-4">
 
-        <?php if(count($rows) > 0) { ?>
-        <div class="fed-grid__wrapper" id="fed-grid-entry-<?php echo $bID ?>">
-          <div class="row">
+          <?php if(count($rows) > 0) { ?>
+
+            <ul class="feature__value-props">
             <?php foreach($rows as $idx=>$row) { ?>
-                <?php if($idx !== 0 && $idx % 3 == 0) { echo '</div><div class="row">';}?>
-                  
-                <div class="col-xs-12 col-sm-4">
+
                 <?php if($row['linkURL']) { ?>
                     <!--a href="<?php echo $row['linkURL'] ?>" class="mega-link-overlay"></a-->
                 <?php } ?>
 
-                <div class="fed-grid__icon">
+                <!--div class="fed-grid__icon">
                   <?php
                   $f = File::getByID($row['fID']);
                    if(is_object($f)) {
@@ -35,32 +44,29 @@ if ($c->isEditMode()) { ?>
                       }
                       print $tag; ?>
                   <?php } ?>
-                </div>
+                </div-->
 
-                <div class="fed-grid__content">
+                <li class="feature__value-prop">
                     <?php if($row['title']) { ?>
-                    	<p class="fed-grid__title"><?php echo $row['title'] ?></p>
+                    	<p class="feature__value-prop-title"><?php echo $row['title'] ?></p>
                     <?php } ?>
-                    <div class="fed-grid__desc">
+                    <div class="feature__value-prop-desc">
                     <?php echo $row['description'] ?>
                     </div>
-                </div>
-
-              </div><!--end grid col-->
-
-
+                </li>
 
             <?php } ?>
-            </div>
-        </div>
-        <?php } else { ?>
-        <div class="ccm-image-slider-placeholder">
-            <p><?php echo t('No Grid Content Entered.'); ?></p>
-        </div>
-        <?php } ?>
+            </ul>
 
+          <?php } else { ?>
+              <?php if ($c->isEditMode()) { ?><div class="ccm-image-slider-placeholder">
+                  <p><?php echo t('No Value Props Entered.'); ?></p>
+              </div>
+              <?php } ?>
+          <?php } ?>
+
+          <a href="" class="btn btn--primary">Learn More</a>
         </div>
-        </div>
+      </div>
     </div>
-</div>
-<?php } ?>
+  </div>

@@ -2,10 +2,11 @@
 
 $fp = FilePermissions::getGlobal();
 $tp = new TaskPermission();
+$form = Loader::helper('form');
 
 echo Core::make('helper/concrete/ui')->tabs(array(
-    array('slides', t('Grid Columns'), true),
-    array('options', t('Options'))
+    array('slides', t('Value Props'), true),
+    array('options', t('Content'))
 ));
 ?>
 
@@ -258,28 +259,105 @@ echo Core::make('helper/concrete/ui')->tabs(array(
     }
 </style>
 
+<?php
+/*************************************
+ INITIALIZE AND TEST FEATURE IMAGE
+**************************************/
+$bf = null;
+
+if ($controller->getFileID() > 0) {
+	$bf = $controller->getFileObject();
+}
+
+$args = array();
+?>
+
+<div id="ccm-tab-content-options" class="ccm-tab-content">
+  <legend><?php echo t('Featured Content')?></legend>
+  <div class="form-group">
+    <?php echo $form->label('featureTitle', t('Feature Title'))?>
+    <?php echo $form->text('featureTitle', $featureTitle, array('style'=>'width: 100%;')); ?>
+  </div>
+
+  <div class="form-group">
+    <?php echo $form->label('featureDescription', t('Feature Description'))?>
+    <?php echo $form->textarea('featureDescription', $featureDescription, array('style'=>'width: 100%;')); ?>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">Image</label>
+  			<div class="ccm-file-selector" data-file-selector="ccm-b-image"></div>
+  		<script type="text/javascript">
+  		$(function() {
+  			$('[data-file-selector=ccm-b-image]').concreteFileSelector({'inputName': 'bfID', 'filters': [{"field":"type","type":1}], 'chooseText': "Choose Image" });
+  		});
+  		</script>
+  </div>
+
+  <div class="form-group">
+  	<?php echo $form->label('buttonText', t('Button Text'))?>
+  	<?php echo $form->text('buttonText', $buttonText, array('style'=>'width: 60%;')); ?>
+  </div>
+
+  <div class="form-group">
+  	<?php echo $form->label('buttonLinkType', t('Button Link'))?>
+  	<select name="buttonLinkType" id="buttonLinkType" class="form-control" style="width: 80%;">
+  		<option value="0" <?php echo (empty($buttonExternalLink) && empty($buttonInternalLinkCID) ? 'selected="selected"' : '')?>><?php echo t('None')?></option>
+  		<option value="1" <?php echo (empty($buttonExternalLink) && !empty($buttonInternalLinkCID) ? 'selected="selected"' : '')?>><?php echo t('Another Page')?></option>
+  		<option value="2" <?php echo (!empty($buttonExternalLink) ? 'selected="selected"' : '')?>><?php echo t('External URL')?></option>
+  	</select>
+  </div>
+
+  <div id="buttonLinkTypePage" style="display: none;" class="form-group">
+  	<?php echo $form->label('buttonInternalLinkCID', t('Choose Page:'))?>
+  	<?php echo Core::make('helper/form/page_selector')->selectPage('buttonInternalLinkCID', $buttonInternalLinkCID); ?>
+  </div>
+
+  <div id="buttonLinkTypeExternal" style="display: none;" class="form-group">
+  	<?php echo $form->label('buttonExternalLink', t('URL'))?>
+  	<?php echo $form->text('buttonExternalLink', $buttonExternalLink, array('style'=>'width: 60%;')); ?>
+  </div>
+</div>
+
+<script type="text/javascript">
+refreshButtonLinkTypeControls = function() {
+	var linkType = $('#buttonLinkType').val();
+	$('#buttonLinkTypePage').toggle(linkType == 1);
+	$('#buttonLinkTypeExternal').toggle(linkType == 2);
+}
+
+$(document).ready(function() {
+	$('#buttonLinkType').change(refreshButtonLinkTypeControls);
+
+    $('div[data-checkbox-wrapper=constrain-image] input').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('div[data-fields=constrain-image]').show();
+        } else {
+            $('div[data-fields=constrain-image]').hide();
+        }
+    }).trigger('change');
+	refreshButtonLinkTypeControls();
+});
+</script>
+
 <div id="ccm-tab-content-slides" class="ccm-tab-content">
     <div class="ccm-image-slider-block-container">
         <div class="ccm-image-slider-entries">
 
         </div>
         <div>
-            <button type="button" class="btn btn-success ccm-add-image-slider-entry"><?php echo t('Add Slide'); ?></button>
+            <button type="button" class="btn btn-success ccm-add-image-slider-entry"><?php echo t('Add Value Prop'); ?></button>
         </div>
     </div>
 </div>
 
-<div id="ccm-tab-content-options" class="ccm-tab-content">
-    <p>No options currently available.</p>
-</div>
 
 <script type="text/template" id="imageTemplate">
     <div class="ccm-image-slider-entry slide-well slide-closed">
-        <button type="button" class="btn btn-default ccm-edit-slide" data-slide-close-text="<?php echo t('Collapse Slide'); ?>" data-slide-edit-text="<?php echo t('Edit Slide'); ?>"><?php echo t('Edit Slide'); ?></button>
+        <button type="button" class="btn btn-default ccm-edit-slide" data-slide-close-text="<?php echo t('Collapse Value Prop'); ?>" data-slide-edit-text="<?php echo t('Edit Value Prop'); ?>"><?php echo t('Edit Value Prop'); ?></button>
         <button type="button" class="btn btn-danger ccm-delete-image-slider-entry"><?php echo t('Remove'); ?></button>
         <i class="fa fa-arrows"></i>
-        <div class="form-group">
-            <label><?php echo t('Image'); ?></label>
+        <!--div class="form-group">
+            <label><?php echo t('Value Prop Image'); ?></label>
             <div class="ccm-pick-slide-image">
                 <% if (image_url.length > 0) { %>
                     <img src="<%= image_url %>" />
@@ -288,17 +366,18 @@ echo Core::make('helper/concrete/ui')->tabs(array(
                 <% } %>
             </div>
             <input type="hidden" name="<?php echo $view->field('fID'); ?>[]" class="image-fID" value="<%=fID%>" />
-        </div>
+        </div-->
+        <br/>
         <div class="form-group" >
-            <label><?php echo t('Title'); ?></label>
+            <label><?php echo t('Value Prop Title'); ?></label>
             <input type="text" name="<?php echo $view->field('title'); ?>[]" value="<%=title%>" />
         </div>
         <div class="form-group" >
-            <label><?php echo t('Description'); ?></label>
+            <label><?php echo t('Value Prop Description'); ?></label>
             <div class="redactor-edit-content"></div>
             <textarea style="display: none" class="redactor-content" name="<?php echo $view->field('description'); ?>[]"><%=description%></textarea>
         </div>
-        <div class="form-group" >
+        <!--div class="form-group" >
            <label><?php echo t('Link'); ?></label>
             <select data-field="entry-link-select" name="linkType[]" class="form-control" style="width: 60%;">
                 <option value="0" <% if (!link_type) { %>selected<% } %>><?php echo t('None'); ?></option>
@@ -313,7 +392,7 @@ echo Core::make('helper/concrete/ui')->tabs(array(
         <div data-field="entry-link-page-selector" class="form-group hide-slide-link">
            <label><?php echo t('Choose Page:'); ?></label>
             <div data-field="entry-link-page-selector-select"></div>
-        </div>
+        </div-->
         <input class="ccm-image-slider-entry-sort" type="hidden" name="<?php echo $view->field('sortOrder'); ?>[]" value="<%=sort_order%>"/>
     </div>
 </script>

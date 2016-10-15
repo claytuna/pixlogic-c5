@@ -4,18 +4,19 @@ namespace Application\Block\PixFeaturedItem;
 use Concrete\Core\Block\BlockController;
 use Database;
 use Page;
+use File;
 use Concrete\Core\Editor\LinkAbstractor;
 use Core;
 
 class Controller extends BlockController
 {
-    protected $btTable = 'btFedGrid';
-    protected $btExportTables = array('btFedGrid', 'btFedGridEntries');
+    protected $btTable = 'btPixFeaturedItem';
+    protected $btExportTables = array('btPixFeaturedItem', 'btPixFeaturedItemEntries');
     protected $btInterfaceWidth = "600";
     protected $btWrapperClass = 'ccm-ui';
     protected $btInterfaceHeight = "650";
     protected $btCacheBlockRecord = true;
-    protected $btExportFileColumns = array('fID');
+    protected $btExportFileColumns = array('fID','bfID');
     protected $btCacheBlockOutput = true;
     protected $btCacheBlockOutputOnPost = true;
     protected $btCacheBlockOutputForRegisteredUsers = false;
@@ -23,12 +24,12 @@ class Controller extends BlockController
 
     public function getBlockTypeDescription()
     {
-        return t("Display content in a grid format.");
+        return t("Featured product with value propositions, title, description, and image.");
     }
 
     public function getBlockTypeName()
     {
-        return t("Grid - FedResults");
+        return t("Featured Product - piXlogic");
     }
 
     public function getSearchableContent()
@@ -36,14 +37,27 @@ class Controller extends BlockController
         $content = '';
         $db = Database::get();
         $v = array($this->bID);
-        $q = 'select * from btFedGridEntries where bID = ?';
+        $q = 'select * from btPixFeaturedItemEntries where bID = ?';
         $r = $db->query($q, $v);
         foreach ($r as $row) {
             $content .= $row['title'].' ';
             $content .= $row['description'].' ';
         }
 
+        $content .= $this->featureTitle;
+        $content .= $this->featureDescription;
+
         return $content;
+    }
+
+    public function getFileID()
+    {
+        return $this->bfID;
+    }
+
+    public function getFileObject()
+    {
+        return File::getByID($this->fID);
     }
 
     public function add()
@@ -59,7 +73,7 @@ class Controller extends BlockController
         $this->requireAsset('core/sitemap');
         $this->requireAsset('redactor');
         $db = Database::get();
-        $query = $db->GetAll('SELECT * from btFedGridEntries WHERE bID = ? ORDER BY sortOrder', array($this->bID));
+        $query = $db->GetAll('SELECT * from btPixFeaturedItemEntries WHERE bID = ? ORDER BY sortOrder', array($this->bID));
         $this->set('rows', $query);
     }
 
@@ -78,7 +92,7 @@ class Controller extends BlockController
     public function getEntries()
     {
         $db = Database::get();
-        $r = $db->GetAll('SELECT * from btFedGridEntries WHERE bID = ? ORDER BY sortOrder', array($this->bID));
+        $r = $db->GetAll('SELECT * from btPixFeaturedItemEntries WHERE bID = ? ORDER BY sortOrder', array($this->bID));
         // in view mode, linkURL takes us to where we need to go whether it's on our site or elsewhere
         $rows = array();
         foreach ($r as $q) {
@@ -96,6 +110,8 @@ class Controller extends BlockController
 
     public function view()
     {
+        $f = File::getByID($this->bfID);
+        $this->set('featureFile', $f);
         $this->set('rows', $this->getEntries());
     }
 
@@ -104,10 +120,10 @@ class Controller extends BlockController
         parent::duplicate($newBID);
         $db = Database::get();
         $v = array($this->bID);
-        $q = 'select * from btFedGridEntries where bID = ?';
+        $q = 'select * from btPixFeaturedItemEntries where bID = ?';
         $r = $db->query($q, $v);
         while ($row = $r->FetchRow()) {
-            $db->execute('INSERT INTO btFedGridEntries (bID, fID, linkURL, title, description, sortOrder, internalLinkCID) values(?,?,?,?,?,?,?)',
+            $db->execute('INSERT INTO btPixFeaturedItemEntries (bID, fID, linkURL, title, description, sortOrder, internalLinkCID) values(?,?,?,?,?,?,?)',
                 array(
                     $newBID,
                     $row['fID'],
@@ -124,7 +140,7 @@ class Controller extends BlockController
     public function delete()
     {
         $db = Database::get();
-        $db->delete('btFedGridEntries', array('bID' => $this->bID));
+        $db->delete('btPixFeaturedItemEntries', array('bID' => $this->bID));
         parent::delete();
     }
 
@@ -134,11 +150,41 @@ class Controller extends BlockController
         return $error;
     }
 
+    public function getImageFeatureDetailFileObject()
+    {
+        // required for future value prop row images
+        $db = Database::connection();
+        $fID = $db->fetchColumn('select fID from btPixFeaturedItem where bID = ?', array($this->bID), 0);
+        if ($fID) {
+            $f = File::getByID($fID);
+            if (is_object($f) && !$f->isError()) {
+                return $f;
+            }
+        }
+    }
+
     public function save($args)
     {
-        $db = Database::get();
-        $db->execute('DELETE from btFedGridEntries WHERE bID = ?', array($this->bID));
-        parent::save($args);
+
+      $args['bfID'] = ($args['bfID'] != '') ? $args['bfID'] : 0;
+
+      switch (intval($args['buttonLinkType'])) {
+          case 1:
+              $args['buttonExternalLink'] = '';
+              break;
+          case 2:
+              $args['buttonInternalLinkCID'] = 0;
+              break;
+          default:
+              $args['buttonExternalLink'] = '';
+              $args['buttonInternalLinkCID'] = 0;
+              break;
+      }
+
+      $db = Database::get();
+      $db->execute('DELETE from btPixFeaturedItemEntries WHERE bID = ?', array($this->bID));
+      parent::save($args);
+
         if (isset($args['sortOrder'])) {
             $count = count($args['sortOrder']);
             $i = 0;
@@ -163,7 +209,7 @@ class Controller extends BlockController
                     $args['description'][$i] = LinkAbstractor::translateTo($args['description'][$i]);
                 }
 
-                $db->execute('INSERT INTO btFedGridEntries (bID, fID, title, description, sortOrder, linkURL, internalLinkCID) values(?, ?, ?, ?,?,?,?)',
+                $db->execute('INSERT INTO btPixFeaturedItemEntries (bID, fID, title, description, sortOrder, linkURL, internalLinkCID) values(?, ?, ?, ?,?,?,?)',
                     array(
                         $this->bID,
                         intval($args['fID'][$i]),

@@ -14,6 +14,7 @@ if (is_object($f)) {
     } else {
         $image = Core::make('html/image', array($f));
         $tag = $image->getTag();
+        print $tag;
     }
     $tag->addClass('ccm-image-block img-responsive bID-'.$bID);
     if ($altText) {
