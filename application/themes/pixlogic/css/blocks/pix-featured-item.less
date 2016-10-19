@@ -1,5 +1,5 @@
 @import "../var";
-.feature {
+.featured-item {
   padding: 21px 0;
 
   @media @tablet-up {
@@ -16,9 +16,37 @@
 
   &__desc {
     text-align: center;
+    max-width: 990px;
+    margin: 0 auto 21px;
     @media @tablet-up {
-      margin-bottom: 89px;
+      margin-bottom: 34px;
     }
+  }
 
+  &__props {
+    margin-bottom: 21px;
+    font-size: 16px;
+
+    ul {
+      padding:0;
+      margin:0;
+      li {
+        .font-play;
+        font-weight: @font-bold;
+        font-size: 18px;
+        padding-top: 8px;
+      }
+    }
+    @media @tablet-up {
+      padding-top: 55px;
+      margin-bottom: 55px;
+    }
+  }
+
+  &__img {
+    img {
+      float: right;
+      max-width: 100%;
+    }
   }
 }

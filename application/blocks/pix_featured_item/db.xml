@@ -8,45 +8,34 @@
       <unsigned/>
       <key/>
     </field>
-    <field name="bfID" type="integer">
-      <unsigned/>
-      <default value="0"/>
-    </field>
-    <field name="featureTitle" type="text"/>
-    <field name="featureDescription" type="text"/>
-    <field name="buttonText" type="string" size="255"/>
-    <field name="buttonURL" type="string" size="255"/>
-    <field name="buttonInternalLinkCID" type="integer">
-      <unsigned/>
-      <default value="0"/>
-    </field>
-  </table>
-
-  <table name="btPixFeaturedItemEntries">
-    <field name="id" type="integer">
-      <unsigned/>
-      <autoincrement/>
-      <key/>
-    </field>
-    <field name="bID" type="integer">
-      <unsigned/>
-    </field>
-    <field name="cID" type="integer">
-      <unsigned/>
-      <default value="0"/>
-    </field>
     <field name="fID" type="integer">
       <unsigned/>
       <default value="0"/>
     </field>
-    <field name="linkURL" type="string" size="255"/>
+    <field name="fOnstateID" type="integer">
+      <unsigned/>
+      <default value="0"/>
+    </field>
+    <field name="maxWidth" type="integer">
+      <unsigned/>
+      <default value="0"/>
+    </field>
+    <field name="maxHeight" type="integer">
+      <unsigned/>
+      <default value="0"/>
+    </field>
+    <field name="externalLink" type="string" size="255"/>
     <field name="internalLinkCID" type="integer">
       <unsigned/>
       <default value="0"/>
     </field>
-    <field name="title" type="text"/>
-    <field name="description" type="text"/>
-    <field name="sortOrder" type="integer"/>
+    <field name="altText" type="string" size="255"/>
+    <field name="title" type="string" size="255"/>
+    <field name="description" type="x2"/>
+    <field name="valueProps" type="x2"/>
+    <index name="fID">
+      <col>fID</col>
+    </index>
   </table>
 
 </schema>

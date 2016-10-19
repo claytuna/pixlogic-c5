@@ -1,11 +1,6 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
 $navigationTypeText = ($navigationType == 0) ? 'arrows' : 'pages';
-$c = Page::getCurrentPage();
-if ($c->isEditMode()) { ?>
-    <div class="ccm-edit-mode-disabled-item" style="<?php echo isset($width) ? "width: $width;" : '' ?><?php echo isset($height) ? "height: $height;" : '' ?>">
-        <div style="padding: 40px 0px 40px 0px"><?php echo t('Full Grid Content disabled in edit mode.')?></div>
-    </div>
-<?php  } else { ?>
+$c = Page::getCurrentPage();?>
 
 <div class="full-grid-wrapper">
   <div class="container-fluid">
@@ -75,4 +70,3 @@ if ($c->isEditMode()) { ?>
         </div>
     </div>
 </div>
-<?php } ?>

@@ -1,63 +1,44 @@
 <?php
+
 namespace Application\Block\PixFeaturedItem;
 
-use Concrete\Core\Block\BlockController;
-use Database;
-use Page;
-use File;
-use Concrete\Core\Editor\LinkAbstractor;
 use Core;
+use Database;
+use File;
+use Page;
+use Concrete\Core\Block\BlockController;
 
 class Controller extends BlockController
 {
+    protected $btInterfaceWidth = 400;
+    protected $btInterfaceHeight = 550;
     protected $btTable = 'btPixFeaturedItem';
-    protected $btExportTables = array('btPixFeaturedItem', 'btPixFeaturedItemEntries');
-    protected $btInterfaceWidth = "600";
-    protected $btWrapperClass = 'ccm-ui';
-    protected $btInterfaceHeight = "650";
     protected $btCacheBlockRecord = true;
-    protected $btExportFileColumns = array('fID','bfID');
     protected $btCacheBlockOutput = true;
     protected $btCacheBlockOutputOnPost = true;
-    protected $btCacheBlockOutputForRegisteredUsers = false;
-    protected $btIgnorePageThemeGridFrameworkContainer = true;
+    protected $btCacheBlockOutputForRegisteredUsers = true;
+    protected $btWrapperClass = 'ccm-ui';
+    protected $btExportFileColumns = array('fID','fOnstateID');
+    protected $btExportPageColumns = array('internalLinkCID');
+    protected $btFeatures = array(
+        'image',
+    );
 
+    /**
+     * Used for localization. If we want to localize the name/description we have to include this.
+     */
     public function getBlockTypeDescription()
     {
-        return t("Featured product with value propositions, title, description, and image.");
+        return t("Adds a featured item to the page with title, description, value props, button, and image");
     }
 
     public function getBlockTypeName()
     {
-        return t("Featured Product - piXlogic");
+        return t("Featured Item - piXlogic");
     }
 
-    public function getSearchableContent()
+    public function registerViewAssets($outputContent = '')
     {
-        $content = '';
-        $db = Database::get();
-        $v = array($this->bID);
-        $q = 'select * from btPixFeaturedItemEntries where bID = ?';
-        $r = $db->query($q, $v);
-        foreach ($r as $row) {
-            $content .= $row['title'].' ';
-            $content .= $row['description'].' ';
-        }
-
-        $content .= $this->featureTitle;
-        $content .= $this->featureDescription;
-
-        return $content;
-    }
-
-    public function getFileID()
-    {
-        return $this->bfID;
-    }
-
-    public function getFileObject()
-    {
-        return File::getByID($this->fID);
     }
 
     public function add()
@@ -72,87 +53,45 @@ class Controller extends BlockController
         $this->requireAsset('core/file-manager');
         $this->requireAsset('core/sitemap');
         $this->requireAsset('redactor');
-        $db = Database::get();
-        $query = $db->GetAll('SELECT * from btPixFeaturedItemEntries WHERE bID = ? ORDER BY sortOrder', array($this->bID));
-        $this->set('rows', $query);
-    }
-
-    public function composer()
-    {
-        $this->edit();
-    }
-
-    public function registerViewAssets($outputContent = '')
-    {
-        $al = \Concrete\Core\Asset\AssetList::getInstance();
-
-        $this->requireAsset('javascript', 'jquery');
-    }
-
-    public function getEntries()
-    {
-        $db = Database::get();
-        $r = $db->GetAll('SELECT * from btPixFeaturedItemEntries WHERE bID = ? ORDER BY sortOrder', array($this->bID));
-        // in view mode, linkURL takes us to where we need to go whether it's on our site or elsewhere
-        $rows = array();
-        foreach ($r as $q) {
-            if (!$q['linkURL'] && $q['internalLinkCID']) {
-                $c = Page::getByID($q['internalLinkCID'], 'ACTIVE');
-                $q['linkURL'] = $c->getCollectionLink();
-                $q['linkPage'] = $c;
-            }
-            $q['description'] = LinkAbstractor::translateFrom($q['description']);
-            $rows[] = $q;
-        }
-
-        return $rows;
     }
 
     public function view()
     {
-        $f = File::getByID($this->bfID);
-        $this->set('featureFile', $f);
-        $this->set('rows', $this->getEntries());
-    }
-
-    public function duplicate($newBID)
-    {
-        parent::duplicate($newBID);
-        $db = Database::get();
-        $v = array($this->bID);
-        $q = 'select * from btPixFeaturedItemEntries where bID = ?';
-        $r = $db->query($q, $v);
-        while ($row = $r->FetchRow()) {
-            $db->execute('INSERT INTO btPixFeaturedItemEntries (bID, fID, linkURL, title, description, sortOrder, internalLinkCID) values(?,?,?,?,?,?,?)',
-                array(
-                    $newBID,
-                    $row['fID'],
-                    $row['linkURL'],
-                    $row['title'],
-                    $row['description'],
-                    $row['sortOrder'],
-                    $row['internalLinkCID'],
-                )
-            );
+        $f = File::getByID($this->fID);
+        if (!is_object($f) || !$f->getFileID()) {
+            return false;
         }
+
+        // onState image available
+        $foS = $this->getFileOnstateObject();
+        if (is_object($foS)) {
+            $imgPath = array();
+            $imgPath['hover'] = File::getRelativePathFromID($this->fOnstateID);
+            $imgPath['default'] = File::getRelativePathFromID($this->fID);
+            $this->set('imgPath', $imgPath);
+            $this->set('foS', $foS);
+        }
+
+        $this->set('f', $f);
+        $this->set('altText', $this->getAltText());
+        $this->set('title', $this->getTitle());
+        $this->set('linkURL', $this->getLinkURL());
     }
 
-    public function delete()
+    public function isComposerControlDraftValueEmpty()
     {
-        $db = Database::get();
-        $db->delete('btPixFeaturedItemEntries', array('bID' => $this->bID));
-        parent::delete();
-    }
+        $f = $this->getFileObject();
+        if (is_object($f) && !$f->isError()) {
+            return false;
+        }
 
-    public function validate($args)
-    {
-        $error = Core::make('helper/validation/error');
-        return $error;
+        return true;
     }
 
     public function getImageFeatureDetailFileObject()
     {
-        // required for future value prop row images
+        // i don't know why this->fID isn't sticky in some cases, leading us to query
+        // every damn time
         $db = Database::connection();
         $fID = $db->fetchColumn('select fID from btPixFeaturedItem where bID = ?', array($this->bID), 0);
         if ($fID) {
@@ -163,65 +102,107 @@ class Controller extends BlockController
         }
     }
 
+    public function getFileID()
+    {
+        return $this->fID;
+    }
+
+    public function getFileOnstateID()
+    {
+        return $this->fOnstateID;
+    }
+
+    public function getFileOnstateObject()
+    {
+        if ($this->fOnstateID) {
+            return File::getByID($this->fOnstateID);
+        }
+    }
+
+    public function getFileObject()
+    {
+        return File::getByID($this->fID);
+    }
+
+    public function getAltText()
+    {
+        return $this->altText;
+    }
+
+    public function getTitle()
+    {
+        return isset($this->title) ? $this->title : null;
+    }
+
+    public function getExternalLink()
+    {
+        return $this->externalLink;
+    }
+
+    public function getInternalLinkCID()
+    {
+        return $this->internalLinkCID;
+    }
+
+    public function getLinkURL()
+    {
+        if (!empty($this->externalLink)) {
+            $sec = \Core::make('helper/security');
+
+            return $sec->sanitizeURL($this->externalLink);
+        } elseif (!empty($this->internalLinkCID)) {
+            $linkToC = Page::getByID($this->internalLinkCID);
+
+            return (empty($linkToC) || $linkToC->error) ? '' : Core::make('helper/navigation')->getLinkToCollection($linkToC);
+        } else {
+            return '';
+        }
+    }
+
+    public function validate_composer()
+    {
+        $f = $this->getFileObject();
+        $e = Core::make('helper/validation/error');
+        if (!is_object($f) || $f->isError() || !$f->getFileID()) {
+            $e->add(t('You must specify a valid image file.'));
+        }
+
+        return $e;
+    }
+
     public function save($args)
     {
-
-      $args['bfID'] = ($args['bfID'] != '') ? $args['bfID'] : 0;
-
-      switch (intval($args['buttonLinkType'])) {
-          case 1:
-              $args['buttonExternalLink'] = '';
-              break;
-          case 2:
-              $args['buttonInternalLinkCID'] = 0;
-              break;
-          default:
-              $args['buttonExternalLink'] = '';
-              $args['buttonInternalLinkCID'] = 0;
-              break;
-      }
-
-      $db = Database::get();
-      $db->execute('DELETE from btPixFeaturedItemEntries WHERE bID = ?', array($this->bID));
-      parent::save($args);
-
-        if (isset($args['sortOrder'])) {
-            $count = count($args['sortOrder']);
-            $i = 0;
-
-            while ($i < $count) {
-                $linkURL = $args['linkURL'][$i];
-                $internalLinkCID = $args['internalLinkCID'][$i];
-                switch (intval($args['linkType'][$i])) {
-                    case 1:
-                        $linkURL = '';
-                        break;
-                    case 2:
-                        $internalLinkCID = 0;
-                        break;
-                    default:
-                        $linkURL = '';
-                        $internalLinkCID = 0;
-                        break;
-                }
-
-                if (isset($args['description'][$i])) {
-                    $args['description'][$i] = LinkAbstractor::translateTo($args['description'][$i]);
-                }
-
-                $db->execute('INSERT INTO btPixFeaturedItemEntries (bID, fID, title, description, sortOrder, linkURL, internalLinkCID) values(?, ?, ?, ?,?,?,?)',
-                    array(
-                        $this->bID,
-                        intval($args['fID'][$i]),
-                        $args['title'][$i],
-                        $args['description'][$i],
-                        $args['sortOrder'][$i],
-                        $linkURL,
-                        $internalLinkCID,
-                    )
-                );
-                ++$i;
-            }
+        $args = $args + array(
+            'fID' => 0,
+            'fOnstateID' => 0,
+            'maxWidth' => 0,
+            'maxHeight' => 0,
+            'constrainImage' => 0,
+            'linkType' => 0,
+            'externalLink' => '',
+            'internalLinkCID' => 0,
+        );
+        $args['fID'] = ($args['fID'] != '') ? $args['fID'] : 0;
+        $args['fOnstateID'] = ($args['fOnstateID'] != '') ? $args['fOnstateID'] : 0;
+        $args['maxWidth'] = (intval($args['maxWidth']) > 0) ? intval($args['maxWidth']) : 0;
+        $args['maxHeight'] = (intval($args['maxHeight']) > 0) ? intval($args['maxHeight']) : 0;
+        if (!$args['constrainImage']) {
+            $args['maxWidth'] = 0;
+            $args['maxHeight'] = 0;
         }
+        switch (intval($args['linkType'])) {
+            case 1:
+                $args['externalLink'] = '';
+                break;
+            case 2:
+                $args['internalLinkCID'] = 0;
+                break;
+            default:
+                $args['externalLink'] = '';
+                $args['internalLinkCID'] = 0;
+                break;
+        }
+        unset($args['linkType']); //this doesn't get saved to the database (it's only for UI usage)
+        parent::save($args);
     }
 }
