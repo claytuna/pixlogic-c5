@@ -277,7 +277,24 @@ echo Core::make('helper/concrete/ui')->tabs(array(
     </div>
 
 
+    <div class="form-group">
+    	<?php echo $form->label('buttonLinkType', t('Button Link'))?>
+    	<select name="buttonLinkType" id="buttonLinkType" class="form-control" style="width: 60%;">
+    		<option value="0" <?php echo (empty($btnExternalLink) && empty($btnInternalLinkCID) ? 'selected="selected"' : '')?>><?php echo t('None')?></option>
+    		<option value="1" <?php echo (empty($btnExternalLink) && !empty($btnInternalLinkCID) ? 'selected="selected"' : '')?>><?php echo t('Another Page')?></option>
+    		<option value="2" <?php echo (!empty($btnExternalLink) ? 'selected="selected"' : '')?>><?php echo t('External URL')?></option>
+    	</select>
+    </div>
 
+    <div id="btnLinkTypePage" style="display: none;" class="form-group">
+    	<?php echo $form->label('btnInternalLinkCID', t('Choose Page:'))?>
+    	<?php echo Core::make('helper/form/page_selector')->selectPage('btnInternalLinkCID', $btnInternalLinkCID); ?>
+    </div>
+
+    <div id="btnLinkTypeExternal" style="display: none;" class="form-group">
+    	<?php echo $form->label('btnExternalLink', t('URL'))?>
+    	<?php echo $form->text('btnExternalLink', $btnExternalLink, array('style'=>'width: 60%;')); ?>
+    </div>
 
     <div class="form-group">
     	<?php echo $form->label('btnText', t('Button Text'))?>
@@ -287,13 +304,13 @@ echo Core::make('helper/concrete/ui')->tabs(array(
 
 <script type="text/javascript">
 refreshImageLinkTypeControls = function() {
-	var linkType = $('#imageLinkType').val();
-	$('#imageLinkTypePage').toggle(linkType == 1);
-	$('#imageLinkTypeExternal').toggle(linkType == 2);
+	var linkType = $('#buttonLinkType').val();
+	$('#btnLinkTypePage').toggle(linkType == 1);
+	$('#btnLinkTypeExternal').toggle(linkType == 2);
 }
 
 $(document).ready(function() {
-	$('#imageLinkType').change(refreshImageLinkTypeControls);
+	$('#buttonLinkType').change(refreshImageLinkTypeControls);
 	refreshImageLinkTypeControls();
 });
 </script>

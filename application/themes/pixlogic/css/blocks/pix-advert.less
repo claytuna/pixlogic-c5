@@ -1,0 +1,44 @@
+@import "../var";
+.advert {
+  background: transparent url('../../img/bg-advert.jpg') no-repeat;
+  background-size: cover;
+  padding: 21px 0;
+
+  @media @tablet-up {
+    padding: 89px 0;
+  }
+
+  &__content {
+    @media @tablet-up {
+      padding-left: 34px;
+    }
+  }
+
+  .advert &__title {
+    color: @pixOrange;
+    font-size:18px;
+    .font-sans;
+    font-weight: @font-bold;
+    text-transform: uppercase;
+    @media @tablet-up {
+      margin-bottom: 34px;
+    }
+  }
+
+  &__desc {
+    color: #fff;
+    font-size: 18px;
+    max-width: 990px;
+    margin: 0 auto 21px;
+    @media @tablet-up {
+      margin-bottom: 34px;
+    }
+  }
+
+  &__img {
+    img {
+      float: right;
+      max-width: 100%;
+    }
+  }
+}

@@ -32,8 +32,12 @@ $as = new GlobalArea('Header Search');
       </div>
   </header>
 
-  <?php /*CALLOUT IMG ATTRIBUTE HERE */?>
-  <div class="page-title-callout__img" style="background-image:url('<?php echo $view->getThemePath()?>/img/banner-tablet-default.jpg')"></div>
+<?php
+  $headerImageUrl = $view->getThemePath() . '/img/banner-tablet-default.jpg';
+  if($c->getAttribute('intro_header_image')) {
+    $headerImageUrl = $c->getAttribute('intro_header_image')->getRecentVersion()->getRelativePath();
+  } ?>
+  <div class="page-title-callout__img" style="background-image:url('<?php echo $headerImageUrl; ?>')"></div>
 
   <?php if($GLOBALS['hideTitle'] == false){?>
   <div class="page-title-callout__text">
@@ -41,7 +45,7 @@ $as = new GlobalArea('Header Search');
     <div class="row">
       <div class="col-xs-12">
         <h1>
-          <span class="page-title-callout__intro">intro attr <?php echo($GLOBALS['foo']);?></span>
+          <span class="page-title-callout__intro"><?php if($c->getAttribute('intro_text')) { echo $c->getAttribute('intro_text'); }?></span>
           <?php
           echo $c->getCollectionName();
           ?>

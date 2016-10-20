@@ -98,7 +98,7 @@ $c = Page::getCurrentPage();
                   <?php } ?>
 
                   <?php if($btnText) {
-                      print '<a class="btn btn--primary btn--center" href="">';
+                      print '<a class="btn btn--primary btn--center" href="'. $btnURL .'">';
                       echo $btnText;
                       print '</a>';
                   }?>

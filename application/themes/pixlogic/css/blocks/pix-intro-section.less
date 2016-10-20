@@ -1,0 +1,47 @@
+@import "../var";
+.intro-section {
+  background: transparent url('../../img/bg-intro-section.png') no-repeat;
+  background-size: cover;
+  padding: 21px 0;
+
+  @media @tablet-up {
+    padding: 55px 0;
+  }
+
+  &__intro {
+    color: @pixOrange;
+    font-size:16px;
+    font-weight: @font-bold;
+    text-transform: uppercase;
+    margin-bottom: 21px;
+
+    @media @tablet-up {
+      padding-top: 34px;
+    }
+  }
+
+  .intro-section &__title {
+    font-size:30px;
+    .font-sans;
+    font-weight: @font-bold;
+    @media @tablet-up {
+      margin-bottom: 34px;
+    }
+  }
+
+  &__desc {
+    font-size: 18px;
+    max-width: 990px;
+    margin: 0 auto 21px;
+    @media @tablet-up {
+      margin-bottom: 34px;
+    }
+  }
+
+  &__img {
+    img {
+      float: right;
+      max-width: 100%;
+    }
+  }
+}

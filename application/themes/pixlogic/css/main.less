@@ -8,6 +8,7 @@
 @import "./forms.less";
 
 /*blocks*/
+@import "./blocks/pix-blog-group.less";
 @import "./blocks/pix-full-grid.less";
 @import "./blocks/pix-icon-grid.less";
 @import "./blocks/pix-logo-row.less";
@@ -15,6 +16,8 @@
 @import "./blocks/pix-full-callout-row.less";
 @import "./blocks/pix-featured-item.less";
 @import "./blocks/pix-featured-article.less";
+@import "./blocks/pix-intro-section.less";
+@import "./blocks/pix-advert.less";
 
 body {
   background: @grayBlack;
@@ -31,13 +34,30 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eae9e8',GradientType=0 ); /* IE6-9 */
 
     min-height: 150px;
-    padding: 50px 0;
 
     img { margin-bottom: 13px; }
   }
 
   .home {
     padding:0;
+  }
+
+  .pagination {
+    &>.active>a, &>.active>span, &>.active>a:hover, &>.active>span:hover, &>.active>a:focus, &>.active>span:focus {
+      color: #fff;
+      background-color: @pixOrange;
+      border-color: @pixOrangeDark;
+    }
+    &>li>a, &>li>span {
+      color: @pixOrange;
+      &:hover {
+        color: @pixOrangeDark;
+      }
+    }
+
+    &>.disabled>span, &>.disabled>span:hover, &>.disabled>span:focus, &>.disabled>a, &>.disabled>a:hover, &>.disabled>a:focus {
+      color:@grayMed;
+    }
   }
 
   /*typography*/

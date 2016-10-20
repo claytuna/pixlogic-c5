@@ -1,0 +1,45 @@
+@import "../var";
+.pix-blog-group {
+
+  padding: 21px 0;
+
+  @media @tablet-up {
+    padding: 55px 0;
+  }
+
+  .pix-blog-entry {
+    .card;
+    margin: 0 0 13px;
+    @media @tablet-up {
+      margin-bottom:34px;
+    }
+
+    &__title {
+      .card-title;
+    }
+
+    &__content {
+      .card-content;
+    }
+
+    &__title {
+      .card-title;
+    }
+
+    &__desc {
+      font-size: 14px;
+      margin: 0 0 21px;
+      @media @tablet-up {
+        margin-bottom:34px;
+      }
+    }
+
+    &__date {
+      .card-date;
+    }
+
+    &__read-more, &__read-more a {
+      .card-read-more;
+    }
+  }
+}

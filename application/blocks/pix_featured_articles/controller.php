@@ -83,6 +83,21 @@ class Controller extends BlockController
         $this->requireAsset('css', 'blocks/image_slider/responsiveslides');
     }
 
+    public function getBtnURL()
+    {
+        if (!empty($this->btnExternalLink)) {
+            $sec = \Core::make('helper/security');
+
+            return $sec->sanitizeURL($this->btnExternalLink);
+        } elseif (!empty($this->btnInternalLinkCID)) {
+            $linkToC = Page::getByID($this->btnInternalLinkCID);
+
+            return (empty($linkToC) || $linkToC->error) ? '' : Core::make('helper/navigation')->getLinkToCollection($linkToC);
+        } else {
+            return '';
+        }
+    }
+
     public function getEntries()
     {
         $db = Database::get();
@@ -105,6 +120,7 @@ class Controller extends BlockController
     public function view()
     {
         $this->set('rows', $this->getEntries());
+        $this->set('btnURL', $this->getBtnURL());
     }
 
     public function duplicate($newBID)
@@ -142,15 +158,20 @@ class Controller extends BlockController
 
     public function save($args)
     {
-        $args += array(
-            'timeout' => 4000,
-            'speed' => 500,
-        );
-        $args['timeout'] = intval($args['timeout']);
-        $args['speed'] = intval($args['speed']);
-        $args['noAnimate'] = isset($args['noAnimate']) ? 1 : 0;
-        $args['pause'] = isset($args['pause']) ? 1 : 0;
-        $args['maxWidth'] = isset($args['maxWidth']) ? intval($args['maxWidth']) : 0;
+        switch (intval($args['buttonLinkType'])) {
+            case 1:
+                $args['btnExternalLink'] = '';
+                break;
+            case 2:
+                $args['btnInternalLinkCID'] = 0;
+                break;
+            default:
+                $args['btnExternalLink'] = '';
+                $args['btnInternalLinkCID'] = 0;
+                break;
+        }
+        unset($args['buttonLinkType']); 
+
         $args['sliderTitle'] = isset($args['sliderTitle']) ? $args['sliderTitle'] : "Upcoming Events";
 
         $db = Database::get();

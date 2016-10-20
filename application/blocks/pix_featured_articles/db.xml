@@ -28,8 +28,8 @@
       <unsigned/>
     </field>
     <field name="sliderTitle" type="text"/>
-    <field name="externalLink" type="string" size="255"/>
-    <field name="internalLinkCID" type="integer">
+    <field name="btnExternalLink" type="string" size="255"/>
+    <field name="btnInternalLinkCID" type="integer">
       <unsigned/>
       <default value="0"/>
     </field>

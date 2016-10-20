@@ -9,10 +9,10 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
     <div class="ccm-edit-mode-disabled-item"><?php echo t('Empty FedResults Page List Block.')?></div>
 <?php } else { ?>
 
-<div class="fed-blog-entry-group">
+<div class="pix-blog-group">
 
     <?php if (isset($pageListTitle) && $pageListTitle): ?>
-        <div class="fed-blog-entry-group__title">
+        <div class="pix-blog-group__title">
             <p><?php echo h($pageListTitle)?></p>
         </div>
     <?php endif; ?>
@@ -21,8 +21,9 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
         <a href="<?php echo $rssUrl ?>" target="_blank" class="ccm-block-page-list-rss-feed"><i class="fa fa-rss"></i></a>
     <?php endif; ?>
 
-    <div class="fed-blog-entry-group__list">
-
+  <div class="container">
+    <div class="pix-blog-group__list">
+        <div class="row">
     <?php
 
     $includeEntryText = false;
@@ -39,7 +40,7 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
     foreach ($pages as $page):
 
 		// Prepare data for each page being listed...
-        $entryClasses = 'fed-blog-entry';
+        $entryClasses = 'pix-blog-entry';
 		$title = $th->entities($page->getCollectionName());
 		$url = ($page->getCollectionPointerExternalLink() != '') ? $page->getCollectionPointerExternalLink() : $nh->getLinkToCollection($page);
 		$target = ($page->getCollectionPointerExternalLink() != '' && $page->openCollectionPointerExternalLinkInNewWindow()) ? '_blank' : $page->getAttribute('nav_target');
@@ -52,7 +53,7 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
             $thumbnail = $page->getAttribute('thumbnail');
         }
         if (is_object($thumbnail) && $includeEntryText) {
-            $entryClasses = 'fed-blog-entry fed-blog-entry--thumbnail';
+            $entryClasses = 'pix-blog-entry pix-blog-entry--thumbnail';
         }
 
         $collectionDate = strtotime($page->getCollectionDatePublic(), true);
@@ -94,66 +95,72 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
 		/* End data preparation. */
 
 		/* The HTML from here through "endforeach" is repeated for every item in the list... */ ?>
-
+      <div class="col-xs-12 col-sm-6 col-lg-4">
         <div class="<?php echo $entryClasses?>">
 
         <?php if (is_object($thumbnail)): ?>
-            <a href="<?php echo $url ?>" class="fed-blog-entry__thumbnail" target="<?php echo $target ?>">
+            <!--a href="<?php echo $url ?>" class="pix-blog-entry__thumbnail" target="<?php echo $target ?>">
                 <?php
                 $img = Core::make('html/image', array($thumbnail));
                 $tag = $img->getTag();
                 $tag->addClass('img-responsive');
                 print $tag;
                 ?>
-            </a>
+            </a-->
         <?php endif; ?>
 
-        <?php if ($includeEntryText): ?>
-            <div class="fed-blog-entry__text">
-
-                <?php if (isset($includeDate) && $includeDate): ?>
-                <div class="fed-blog-entry__date">
-                  <span class="fed-blog-entry__date-month"><?php echo $dateMonth?></span>
-                  <span class="fed-blog-entry__date-day"><?php echo $dateDay?></span>
-                  <span class="fed-blog-entry__date-year"><?php echo $dateYear?></span>
-                </div>
-                <?php endif; ?>
-
-
-                <div class="fed-blog-entry__content">
-                <?php if (isset($includeName) && $includeName): ?>
-                    <a class="fed-blog-entry__title" href="<?php echo $url ?>" target="<?php echo $target ?>">
-                      <?php echo $title ?>
-                    </a>
-                <?php endif; ?>
-
-                <?php if (isset($includeDescription) && $includeDescription): ?>
-                    <div class="fed-blog-entry__desc">
-                        <?php echo $description ?>
-                    </div>
-                <?php endif; ?>
-                    <div class="fed-blog-entry__read-more">
-                        <a href="<?php echo $url?>" target="<?php echo $target?>">
-                          <?php echo t("Read more")?> <span class="fed-blog-entry__read-more-arrows">>></span>
+            <div class="pix-blog-entry__text">
+                <div class="pix-blog-entry__content">
+                    <?php if (isset($includeName) && $includeName): ?>
+                        <a class="pix-blog-entry__title" href="<?php echo $url ?>" target="<?php echo $target ?>">
+                          <?php echo $title ?>
                         </a>
-                    </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($includeDescription) && $includeDescription): ?>
+                        <div class="pix-blog-entry__desc">
+                            <?php echo $description ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
+                <?php if (isset($includeDate) && $includeDate): ?>
+                <div class="pix-blog-entry__date">
+                  <span class="pix-blog-entry__date-month"><?php echo $dateMonth?></span>
+                  <span class="pix-blog-entry__date-day"><?php echo $dateDay?>,</span>
+                  <span class="pix-blog-entry__date-year"><?php echo $dateYear?></span>
+                </div> |
+                <?php endif; ?>
+
+                <div class="pix-blog-entry__read-more">
+                    <a href="<?php echo $url?>" target="<?php echo $target?>">
+                      <?php echo t("Read more")?> <span class="pix-blog-entry__read-more-arrows">>></span>
+                    </a>
+                </div>
+
 
             </div>
-        <?php endif; ?>
         </div>
 
+      </div>
+
 	<?php endforeach; ?>
+      </div><!--row-->
     </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <?php if (count($pages) == 0): ?>
+            <div class="pix-blog-group__no-pages"><?php echo h($noResultsMessage)?></div>
+        <?php endif;?>
 
-    <?php if (count($pages) == 0): ?>
-        <div class="fed-blog-entry-group__no-pages"><?php echo h($noResultsMessage)?></div>
-    <?php endif;?>
+
+        <?php if ($showPagination): ?>
+            <?php echo $pagination;?>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div><!--container-->
 
 
-    <?php if ($showPagination): ?>
-        <?php echo $pagination;?>
-    <?php endif; ?>
 
 </div><!-- end .ccm-block-page-list -->
 

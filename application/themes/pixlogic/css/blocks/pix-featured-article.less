@@ -25,20 +25,11 @@
   }
 
   &__content {
-    background: #fff;
-    border: 1px solid #c2bfbe;
-    border-radius: 2px;
-    padding: 41px 34px;
-    margin-bottom: 13px;
+    .card;
   }
 
   &__title {
-    color: #000;
-    display: inline-block;
-    font-size: 20px;
-    .font-play;
-    font-weight: @font-bold;
-    margin-bottom: 21px;
+    .card-title;
   }
 
   &__desc {
@@ -50,26 +41,15 @@
   }
 
   &__title-group {
-    @media @tablet-up {
-      min-height: 308px;
-    }
-  }
-
-  .small-text(){
-    display: inline-block;
-    font-size: 11px;
-    font-weight: @font-bold;
-    text-transform: uppercase;
+    .card-content;
   }
 
   &__date {
-    color:#bab4b1;
-    .small-text;
+    .card-date;
   }
 
   &__read-more, &__read-more a {
-    color: @pixOrange;
-    .small-text;
+    .card-read-more;
   }
 }
 }
