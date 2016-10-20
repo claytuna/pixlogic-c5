@@ -18,6 +18,8 @@
 @import "./blocks/pix-featured-article.less";
 @import "./blocks/pix-intro-section.less";
 @import "./blocks/pix-advert.less";
+@import "./blocks/pix-contact-info.less";
+@import "./blocks/pix-title-group.less";
 
 body {
   background: @grayBlack;
@@ -36,7 +38,16 @@ body {
     min-height: 150px;
 
     img { margin-bottom: 13px; }
+
+    &.main--padded {
+      padding: 34px 0;
+      @media @tablet-up {
+        padding: 55px 0;
+      }
+    }
   }
+
+
 
   .home {
     padding:0;

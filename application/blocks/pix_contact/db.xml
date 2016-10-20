@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.concrete5.org/doctrine-xml/0.5"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.concrete5.org/doctrine-xml/0.5 http://concrete5.github.io/doctrine-xml/doctrine-xml-0.5.xsd">
+
+  <table name="btPixContact">
+    <field name="bID" type="integer">
+      <unsigned/>
+      <key/>
+    </field>
+    <field name="fID" type="integer">
+      <unsigned/>
+      <default value="0"/>
+    </field>
+    <field name="phone" type="string" size="128"/>
+    <field name="fax" type="string" size="128"/>
+    <field name="infoEmail" type="string" size="255"/>
+    <field name="salesEmail" type="string" size="255"/>
+    <field name="partnerEmail" type="string" size="255"/>
+    <field name="address1" type="string" size="255"/>
+    <field name="address2" type="string" size="255"/>
+    <field name="cityStateZip" type="string" size="255"/>
+    <field name="country" type="string" size="255"/>
+    <index name="fID">
+      <col>fID</col>
+    </index>
+  </table>
+
+</schema>
