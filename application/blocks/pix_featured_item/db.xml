@@ -31,8 +31,8 @@
     </field>
     <field name="altText" type="string" size="255"/>
     <field name="title" type="string" size="255"/>
-    <field name="description" type="x2"/>
-    <field name="valueProps" type="x2"/>
+    <field name="description" type="text"/>
+    <field name="valueProps" type="text"/>
     <index name="fID">
       <col>fID</col>
     </index>
