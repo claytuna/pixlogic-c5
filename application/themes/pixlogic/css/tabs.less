@@ -35,13 +35,28 @@
 }
 
 @tab-top: 40px;
+@tab-top-lg: 55px;
 /* NON-MOBILE tab styles */
-@media @tablet-up {
+@media @desktop-up {
   .tabs {
     position: relative;
     margin-top: -@tab-top;
     min-height: 510px; /* This part sucks */
     clear: both;
+
+    &--lg {
+      margin-top: -@tab-top-lg;
+
+      .tab {
+        min-height: @tab-top-lg;
+        label {
+          padding-top: 8px;
+        }
+        .content {
+          top: @tab-top-lg;
+        }
+      }
+    }
   }
 
   .tab {
@@ -65,6 +80,14 @@
       }
     }
 
+    &__intro { font-weight: normal; }
+
+    &__icon img {
+      display: none;
+      margin: 0 8px 0 0 !important;
+      max-height: 18px;
+      width: auto;
+    }
 
     .content {
       position: absolute;
@@ -77,6 +100,8 @@
 
       overflow-x: hidden;
       overflow-y: auto;
+
+
     }
 
     .content > * {
@@ -93,6 +118,8 @@
       color: #2d2622;
       border-bottom: 1px solid white;
       z-index: 2;
+
+      .tab__icon img { display: inline-block; }
     }
 
     [type=radio]:checked ~ label ~ .content {

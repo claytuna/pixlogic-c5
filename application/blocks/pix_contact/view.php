@@ -26,14 +26,14 @@ $c = Page::getCurrentPage();
       print '</dd><br/>';
   }
   if ($infoEmail) {
-      print '<dt>Info:</dt><dd>';
+      print '<dt>Info:</dt><dd><a href="mailto:' . $infoEmail . '">';
       echo $infoEmail;
-      print '</dd><br/>';
+      print '</a></dd><br/>';
   }
   if ($salesEmail) {
-      print '<dt>Sales:</dt><dd>';
+      print '<dt>Sales:</dt><dd><a href="mailto:' . $salesEmail . '">';
       echo $salesEmail;
-      print '</dd><br/>';
+      print '</a></dd><br/>';
   }
   if ($partnerEmail) {
       print '<dt>Partner:</dt><dd><a href="mailto:' . $partnerEmail . '">';
@@ -42,9 +42,9 @@ $c = Page::getCurrentPage();
   }
   if ($address1) {
       print '<dt>Location:</dt><dd>';
-      echo $address1;
-      if($address2) { echo $address2; }
-      if($cityStateZip) { echo $cityStateZip; }
+      echo $address1; print ' ';
+      if($address2) { echo $address2; print ' '; }
+      if($cityStateZip) { echo $cityStateZip; print ' '; }
       if($country) { echo $country; }
       print '</dd>';
   }

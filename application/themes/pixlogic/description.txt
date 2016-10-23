@@ -1,2 +1,2 @@
-PixLogic
-Concrete5 theme for PixLogic. 2016
+piXlogic
+Concrete5 theme for piXlogic. 2016

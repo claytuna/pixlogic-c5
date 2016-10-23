@@ -47,7 +47,11 @@ $as = new GlobalArea('Header Search');
         <h1>
           <span class="page-title-callout__intro"><?php if($c->getAttribute('intro_text')) { echo $c->getAttribute('intro_text'); }?></span>
           <?php
-          echo $c->getCollectionName();
+          $pageTitleCallout = $c->getCollectionName();
+          if($c->getAttribute('intro_title_override')) {
+            $pageTitleCallout = $c->getAttribute('intro_title_override');
+          }
+          echo $pageTitleCallout;
           ?>
         </h1>
       </div>

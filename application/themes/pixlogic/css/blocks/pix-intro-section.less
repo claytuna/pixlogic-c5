@@ -30,9 +30,10 @@
   }
 
   &__desc {
-    font-size: 18px;
-    max-width: 990px;
-    margin: 0 auto 21px;
+    font-size: 16px;
+    max-width: 570px;
+    margin: 0 0 21px;
+
     @media @tablet-up {
       margin-bottom: 34px;
     }
@@ -42,6 +43,13 @@
     img {
       float: right;
       max-width: 100%;
+      padding-top: 10px;
+
+      @media @mobile{
+        margin: 0 auto;
+        display: block;
+        float: none;
+      }
     }
   }
 }
